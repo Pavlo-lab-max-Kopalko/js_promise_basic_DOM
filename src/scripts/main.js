@@ -14,12 +14,6 @@ const promise1 = new Promise((resolve, reject) => {
   logo.addEventListener('click', () => {
     resolve(body.insertAdjacentElement('afterbegin', newDiv));
   });
-
-  setTimeout(() => {
-    logo.addEventListener('click', () => {
-      reject(body.insertAdjacentElement('afterbegin', newDiv));
-    });
-  }, 3000);
 });
 
 const promise2 = new Promise((resolve, reject) => {
@@ -39,5 +33,10 @@ const promise2 = new Promise((resolve, reject) => {
   }, 3000);
 });
 
-promise1.then();
-promise2.then();
+promise1.then((resolve) => resolve);
+promise2.then((reject) => reject);
+
+Promise.allSettled([
+  promise1.then((resolve) => resolve),
+  promise2.then((reject) => reject),
+]);
